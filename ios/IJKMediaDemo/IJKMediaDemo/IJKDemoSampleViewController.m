@@ -35,6 +35,9 @@
     self.title = @"M3U8";
 
     NSMutableArray *sampleList = [[NSMutableArray alloc] init];
+    
+    [sampleList addObject:@[@"PALink",
+                            @"https://ws-db2.pajk.qz123.com/66756a18-8b44-49ce-8968-7d67909a5a88_mp4_800k.mp4"]];
 
     [sampleList addObject:@[@"bipbop basic master playlist",
                             @"http://devimages.apple.com.edgekey.net/streaming/examples/bipbop_4x3/bipbop_4x3_variant.m3u8"]];

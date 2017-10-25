@@ -362,6 +362,7 @@
 		8E11F6F61FA01FED008A9737 /* video_common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = video_common.h; sourceTree = "<group>"; };
 		8E11F6F71FA01FED008A9737 /* libyuv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libyuv.h; sourceTree = "<group>"; };
 		8E405A4C1FA0344000DF5863 /* timer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = timer.h; sourceTree = "<group>"; };
+		8E405A721FA0A01100DF5863 /* SRDShader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SRDShader.h; sourceTree = "<group>"; };
 		8E89F3E61F9ED0F400C1FE3C /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
 		8E89F3E71F9ED0F400C1FE3C /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libssl.a; sourceTree = "<group>"; };
 		8E89F3EA1F9ED11900C1FE3C /* libyuv.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libyuv.a; sourceTree = "<group>"; };
@@ -960,6 +961,7 @@
 		E6C459851C7030B6004831EC /* gles2 */ = {
 			isa = PBXGroup;
 			children = (
+				8E405A721FA0A01100DF5863 /* SRDShader.h */,
 				E6C459861C7030B6004831EC /* color.c */,
 				E6C459871C7030B6004831EC /* common.c */,
 				E6C459881C7030B6004831EC /* fsh */,
