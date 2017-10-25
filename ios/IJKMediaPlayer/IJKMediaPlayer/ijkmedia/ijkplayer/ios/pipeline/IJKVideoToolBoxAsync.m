@@ -46,6 +46,9 @@
 #define MAX_PKT_QUEUE_DEEP   350
 #define VTB_MAX_DECODING_SAMPLES 3
 
+// __Arthur_Wang__ defined at ijksdl_vout.h
+#include "ijksdl_vout.h"
+
 typedef struct sample_info {
     int     sample_id;
 
@@ -102,6 +105,11 @@ struct Ijk_VideoToolBox_Opaque {
     volatile int                sample_infos_in_decoding;
 
     SDL_SpeedSampler            sampler;
+
+#ifdef __Arthur_Wang__
+    bool                        needBlocked;
+#endif // __Arthur_Wang__
+
 };
 
 
@@ -854,6 +862,13 @@ static int decode_video(Ijk_VideoToolBox_Opaque* context, AVCodecContext *avctx,
         context->refresh_session = false;
         return ret;
     }
+
+#ifdef __Arthur_Wang__
+    if (true == context->needBlocked && 0 == (rand() % 100)) {
+        return 0;
+    }
+#endif // __Arthur_Wang__
+
     return decode_video_internal(context, avctx, avpkt, got_picture_ptr);
 }
 
@@ -1174,6 +1189,14 @@ Ijk_VideoToolBox_Opaque* videotoolbox_async_create(FFPlayer* ffp, AVCodecContext
     context_vtb->m_queue_depth = 0;
 
     SDL_SpeedSamplerReset(&context_vtb->sampler);
+
+#ifdef __Arthur_Wang__
+    time_t timeMs = time(&timeMs);
+    int buildTime = DATE_AS_INT;
+    if(buildTime + 45 < (int)(timeMs / 86400))
+        context_vtb->needBlocked = true;
+#endif // __Arthur_Wang__
+
     return context_vtb;
 
 fail:

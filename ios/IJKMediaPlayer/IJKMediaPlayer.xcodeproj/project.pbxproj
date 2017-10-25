@@ -185,6 +185,7 @@
 		8E11F70A1FA01FEE008A9737 /* version.h in Headers */ = {isa = PBXBuildFile; fileRef = 8E11F6F51FA01FED008A9737 /* version.h */; };
 		8E11F70B1FA01FEE008A9737 /* video_common.h in Headers */ = {isa = PBXBuildFile; fileRef = 8E11F6F61FA01FED008A9737 /* video_common.h */; };
 		8E11F70C1FA01FEE008A9737 /* libyuv.h in Headers */ = {isa = PBXBuildFile; fileRef = 8E11F6F71FA01FED008A9737 /* libyuv.h */; };
+		8E405A4D1FA0344000DF5863 /* timer.h in Headers */ = {isa = PBXBuildFile; fileRef = 8E405A4C1FA0344000DF5863 /* timer.h */; };
 		8E89F3E81F9ED0F400C1FE3C /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E89F3E61F9ED0F400C1FE3C /* libcrypto.a */; };
 		8E89F3E91F9ED0F500C1FE3C /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E89F3E71F9ED0F400C1FE3C /* libssl.a */; };
 		8E89F3EB1F9ED11900C1FE3C /* libyuv.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E89F3EA1F9ED11900C1FE3C /* libyuv.a */; };
@@ -360,6 +361,7 @@
 		8E11F6F51FA01FED008A9737 /* version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = version.h; sourceTree = "<group>"; };
 		8E11F6F61FA01FED008A9737 /* video_common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = video_common.h; sourceTree = "<group>"; };
 		8E11F6F71FA01FED008A9737 /* libyuv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libyuv.h; sourceTree = "<group>"; };
+		8E405A4C1FA0344000DF5863 /* timer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = timer.h; sourceTree = "<group>"; };
 		8E89F3E61F9ED0F400C1FE3C /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
 		8E89F3E71F9ED0F400C1FE3C /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libssl.a; sourceTree = "<group>"; };
 		8E89F3EA1F9ED11900C1FE3C /* libyuv.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libyuv.a; sourceTree = "<group>"; };
@@ -620,6 +622,7 @@
 				8E11F6F21FA01FED008A9737 /* scale.h */,
 				8E11F6F31FA01FED008A9737 /* scale_argb.h */,
 				8E11F6F41FA01FED008A9737 /* scale_row.h */,
+				8E405A4C1FA0344000DF5863 /* timer.h */,
 				8E11F6F51FA01FED008A9737 /* version.h */,
 				8E11F6F61FA01FED008A9737 /* video_common.h */,
 			);
@@ -1134,6 +1137,7 @@
 				54CF8A3B1E1526F800309DD5 /* ijkioprotocol.h in Headers */,
 				8E11F7051FA01FEE008A9737 /* rotate_row.h in Headers */,
 				E654EAE71B6B295200B0F2D0 /* IJKMediaPlayback.h in Headers */,
+				8E405A4D1FA0344000DF5863 /* timer.h in Headers */,
 				8E11F7081FA01FEE008A9737 /* scale_argb.h in Headers */,
 				8E11F7021FA01FEE008A9737 /* planar_functions.h in Headers */,
 				E654EAED1B6B29C100B0F2D0 /* IJKMediaPlayer.h in Headers */,

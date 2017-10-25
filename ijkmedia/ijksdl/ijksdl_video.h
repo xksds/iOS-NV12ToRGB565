@@ -30,4 +30,8 @@
 
 #define __Arthur_Wang__
 
+#ifdef __Arthur_Wang__
+#include "timer.h"
+#endif // __Arthur_Wang__
+
 #endif
