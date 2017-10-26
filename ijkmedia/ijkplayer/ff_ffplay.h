@@ -118,4 +118,8 @@ void      ffp_set_property_int64(FFPlayer *ffp, int id, int64_t value);
 // must be freed with free();
 struct IjkMediaMeta *ffp_get_meta_l(FFPlayer *ffp);
 
+#ifdef __Arthur_Wang__
+int ffp_set_user_parameter(FFPlayer *ffp, int type, void *param1, void *param2);
+#endif // __Arthur_Wang__
+
 #endif

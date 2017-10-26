@@ -110,7 +110,26 @@ fail:
     return NULL;
 }
 
-
+#ifdef __Arthur_Wang__
+IJK_GLES2_Renderer *IJK_GLES2_Renderer_create_rgb565_user(SDL_VoutOverlay *overlay)
+{
+    ALOGI("create render rgb565_user\n");
+    IJK_GLES2_Renderer *renderer = IJK_GLES2_Renderer_create_base_user(overlay);
+    if (!renderer)
+        goto fail;
+    
+    renderer->us2_sampler[0] = glGetUniformLocation(renderer->program, "us2_SamplerX"); IJK_GLES2_checkError_TRACE("glGetUniformLocation(us2_SamplerX)");
+    
+    renderer->func_use            = rgb_use;
+    renderer->func_getBufferWidth = rgb565_getBufferWidth;
+    renderer->func_uploadTexture  = rgb565_uploadTexture;
+    
+    return renderer;
+fail:
+    IJK_GLES2_Renderer_free(renderer);
+    return NULL;
+}
+#endif // __Arthur_Wang__
 
 static GLsizei rgb888_getBufferWidth(IJK_GLES2_Renderer *renderer, SDL_VoutOverlay *overlay)
 {

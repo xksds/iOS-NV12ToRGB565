@@ -896,6 +896,9 @@ static void video_image_display2(FFPlayer *ffp)
                 }
             }
         }
+#ifdef __Arthur_Wang__
+        vp->bmp->settingOpaque = &ffp->user_setting;
+#endif // __Arthur_Wang__
         SDL_VoutDisplayYUVOverlay(ffp->vout, vp->bmp);
         ffp->stat.vfps = SDL_SpeedSamplerAdd(&ffp->vfps_sampler, FFP_SHOW_VFPS_FFPLAY, "vfps[ffplay]");
         if (!ffp->first_video_frame_rendered) {
@@ -4898,3 +4901,36 @@ IjkMediaMeta *ffp_get_meta_l(FFPlayer *ffp)
 
     return ffp->meta;
 }
+
+#ifdef __Arthur_Wang__
+int ffp_set_user_parameter(FFPlayer *ffp, int type, void *param1, void *param2)
+{
+    if(NULL == ffp)
+        return -1;
+    
+    int nRC = 0;
+    
+    switch (type) {
+        case USER_SETTING_ENABLE:
+            ffp->user_setting.enabl_user_setting = *(int*)param1;
+            break;
+        case USER_SETTING_VERTEX:
+            ffp->user_setting.user_vertex = param1;
+            break;
+        case USER_SETTING_FRAGMENT:
+            ffp->user_setting.user_fragment = param1;
+            break;
+        case USER_SETTING_SATURATION_UPDATE:
+            ffp->user_setting.glParamUpdate.update = true;
+            ffp->user_setting.glParamUpdate.paramID = SATURATION_UPDATE;
+            ffp->user_setting.glParamUpdate.param1 = param1;
+            ffp->user_setting.glParamUpdate.param2 = param2;
+            break;
+        default:
+            av_log(ffp, AV_LOG_ERROR, "Unknown setting type %d\n", type);
+            break;
+    }
+    
+    return nRC;
+}
+#endif // __Arthur_Wang__

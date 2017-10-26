@@ -144,6 +144,30 @@ static unsigned sws_flags = SWS_BICUBIC;
 #define LD_IMAGE 0  // 160*90
 #define MAX_DEVIATION 1200000   // 1200ms
 
+#ifdef __Arthur_Wang__
+
+#define USER_SETTING_ENABLE 0
+#define USER_SETTING_VERTEX 1
+#define USER_SETTING_FRAGMENT 2
+#define USER_SETTING_SATURATION_UPDATE 3
+
+#define SATURATION_UPDATE 1
+
+typedef struct GLParamUpdate{
+    bool update;
+    int paramID;
+    void *param1;
+    void *param2;
+}GLParamUpdate;
+
+typedef struct User_Setting_Struct {
+    bool enabl_user_setting;
+    const char *user_vertex;
+    const char *user_fragment;
+    GLParamUpdate glParamUpdate;
+}User_Setting_Struct;
+#endif // __Arthur_Wang__
+
 typedef struct GetImgInfo {
     char *img_path;
     int64_t start_time;
@@ -710,6 +734,11 @@ typedef struct FFPlayer {
     int skip_calc_frame_rate;
     int get_frame_mode;
     GetImgInfo *get_img_info;
+
+#ifdef __Arthur_Wang__
+    User_Setting_Struct user_setting;
+#endif // __Arthur_Wang__
+
 } FFPlayer;
 
 #define fftime_to_milliseconds(ts) (av_rescale(ts, 1000, AV_TIME_BASE))
@@ -837,6 +866,12 @@ inline static void ffp_reset_internal(FFPlayer *ffp)
     ffp->ijkio_inject_opaque = NULL;
     ffp_reset_statistic(&ffp->stat);
     ffp_reset_demux_cache_control(&ffp->dcc);
+
+#ifdef __Arthur_Wang__
+    memset(&ffp->user_setting, 0, sizeof(ffp->user_setting));
+    ffp->user_setting.enabl_user_setting = true;
+#endif // __Arthur_Wang__
+
 }
 
 inline static void ffp_notify_msg1(FFPlayer *ffp, int what) {

@@ -58,6 +58,7 @@ struct SDL_VoutOverlay {
 
 #ifdef __Arthur_Wang__
     Uint8 *rgbData;
+    void *settingOpaque;
 #endif // __Arthur_Wang__
 };
 

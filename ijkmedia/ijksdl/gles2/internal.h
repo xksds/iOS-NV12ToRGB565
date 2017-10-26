@@ -101,4 +101,8 @@ IJK_GLES2_Renderer *IJK_GLES2_Renderer_create_rgb565();
 IJK_GLES2_Renderer *IJK_GLES2_Renderer_create_rgb888();
 IJK_GLES2_Renderer *IJK_GLES2_Renderer_create_rgbx8888();
 
+#ifdef __Arthur_Wang__
+IJK_GLES2_Renderer *IJK_GLES2_Renderer_create_rgb565_user(SDL_VoutOverlay *overlay);
+IJK_GLES2_Renderer *IJK_GLES2_Renderer_create_base_user(SDL_VoutOverlay *overlay);
+#endif // __Arthur_Wang__
 #endif

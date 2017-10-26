@@ -33,6 +33,37 @@
 #import "ijkioapplication.h"
 #include "string.h"
 
+#define USER_SETTING_VERTEX 1
+#define USER_SETTING_FRAGMENT 2
+#define USER_SETTING_SATURATION_UPDATE 3
+
+#define SATURATION_UPDATE 1
+
+const char vertex_shader_saturation[] = {
+    "attribute vec4 aPosition;\n"
+    "attribute vec4 aTextureCoord;\n"
+    "varying vec2 vTextureCoord;\n"
+    
+    "void main() {\n"
+    "  gl_Position = aPosition;\n"
+    "  vTextureCoord = aTextureCoord.xy;\n"
+    "}\n"
+};
+
+static const char frame_shader_saturation[] = {
+    "varying highp vec2 vTextureCoord;\n"
+    "uniform sampler2D sTexture;\n"
+    "uniform lowp float saturation;\n"
+    "const mediump vec3 luminanceWeighting = vec3(0.2125, 0.7154, 0.0721);\n"
+    
+    "void main() {\n"
+    "   lowp vec4 textureColor = texture2D(sTexture, vTextureCoord);\n"
+    "   lowp float luminance = dot(textureColor.rgb, luminanceWeighting);\n"
+    "   lowp vec3 greyScaleColor = vec3(luminance);\n"
+    "   gl_FragColor = vec4(mix(greyScaleColor, textureColor.rgb, saturation), textureColor.w);\n"
+    "}\n"
+};
+
 static const char *kIJKFFRequiredFFmpegVersion = "ff3.3--ijk0.8.0--20170829--001";
 
 // It means you didn't call shutdown if you found this object leaked.
@@ -200,6 +231,9 @@ void IJKFFIOStatCompleteRegister(void (*cb)(const char *url,
         ijkmp_set_inject_opaque(_mediaPlayer, (__bridge_retained void *) weakHolder);
         ijkmp_set_ijkio_inject_opaque(_mediaPlayer, (__bridge_retained void *)weakHolder);
         ijkmp_set_option_int(_mediaPlayer, IJKMP_OPT_CATEGORY_PLAYER, "start-on-prepared", _shouldAutoplay ? 1 : 0);
+
+        set_user_parameter(_mediaPlayer, USER_SETTING_VERTEX, vertex_shader_saturation, NULL);
+        set_user_parameter(_mediaPlayer, USER_SETTING_FRAGMENT, frame_shader_saturation, NULL);
 
         // init video sink
         _glView = [[IJKSDLGLView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];

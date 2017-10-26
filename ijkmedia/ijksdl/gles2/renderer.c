@@ -119,39 +119,6 @@ IJK_GLES2_Renderer *IJK_GLES2_Renderer_create_base(const char *fragment_shader_s
     if (!renderer)
         goto fail;
 
-#ifdef __Arthur_Wang__
-    renderer->vertex_shader = IJK_GLES2_loadShader(GL_VERTEX_SHADER, vertex_shader_saturation);
-    if (!renderer->vertex_shader)
-        goto fail;
-
-    renderer->fragment_shader = IJK_GLES2_loadShader(GL_FRAGMENT_SHADER, frame_shader_saturation);
-    if (!renderer->fragment_shader)
-        goto fail;
-
-    renderer->program = glCreateProgram();                          IJK_GLES2_checkError("glCreateProgram");
-    if (!renderer->program)
-        goto fail;
-
-    glAttachShader(renderer->program, renderer->vertex_shader);     IJK_GLES2_checkError("glAttachShader(vertex)");
-    glAttachShader(renderer->program, renderer->fragment_shader);   IJK_GLES2_checkError("glAttachShader(fragment)");
-    glLinkProgram(renderer->program);                               IJK_GLES2_checkError("glLinkProgram");
-    GLint link_status = GL_FALSE;
-    glGetProgramiv(renderer->program, GL_LINK_STATUS, &link_status);
-    if (!link_status)
-        goto fail;
-
-    glEnableVertexAttribArray(glGetAttribLocation(renderer->program, "aPosition"));
-    glVertexAttribPointer(glGetAttribLocation(renderer->program, "aPosition"), VERTICES_DATA_POS_SIZE, GL_FLOAT, false, VERTICES_DATA_STRIDE_BYTES, vertices);
-    glEnableVertexAttribArray(glGetAttribLocation(renderer->program, "aTextureCoord"));
-    glVertexAttribPointer(glGetAttribLocation(renderer->program,"aTextureCoord"), VERTICES_DATA_UV_SIZE, GL_FLOAT, false, VERTICES_DATA_STRIDE_BYTES, &vertices[3]);
-
-    glUseProgram(renderer->program);
-    glUniform1i(glGetAttribLocation(renderer->program,"sTexture"), 0);
-
-    glUniform1f(glGetAttribLocation(renderer->program, "saturation"), 0.0f);
-
-#else
-
     renderer->vertex_shader = IJK_GLES2_loadShader(GL_VERTEX_SHADER, IJK_GLES2_getVertexShader_default());
     if (!renderer->vertex_shader)
         goto fail;
@@ -176,7 +143,6 @@ IJK_GLES2_Renderer *IJK_GLES2_Renderer_create_base(const char *fragment_shader_s
     renderer->av4_position = glGetAttribLocation(renderer->program, "av4_Position");                IJK_GLES2_checkError_TRACE("glGetAttribLocation(av4_Position)");
     renderer->av2_texcoord = glGetAttribLocation(renderer->program, "av2_Texcoord");                IJK_GLES2_checkError_TRACE("glGetAttribLocation(av2_Texcoord)");
     renderer->um4_mvp      = glGetUniformLocation(renderer->program, "um4_ModelViewProjection");    IJK_GLES2_checkError_TRACE("glGetUniformLocation(um4_ModelViewProjection)");
-#endif // __Arthur_Wang__
 
     return renderer;
 
@@ -189,6 +155,59 @@ fail:
     return NULL;
 }
 
+#ifdef __Arthur_Wang__
+IJK_GLES2_Renderer *IJK_GLES2_Renderer_create_base_user(SDL_VoutOverlay *overlay)
+{
+    assert(overlay);
+    assert(overlay->settingOpaque);
+
+    User_Setting_Struct *user_setting = (User_Setting_Struct*)overlay->settingOpaque;
+    
+    IJK_GLES2_Renderer *renderer = (IJK_GLES2_Renderer *)calloc(1, sizeof(IJK_GLES2_Renderer));
+    if (!renderer)
+        goto fail;
+    
+    renderer->vertex_shader = IJK_GLES2_loadShader(GL_VERTEX_SHADER, user_setting->user_vertex);
+    if (!renderer->vertex_shader)
+        goto fail;
+    
+    renderer->fragment_shader = IJK_GLES2_loadShader(GL_FRAGMENT_SHADER, user_setting->user_fragment);
+    if (!renderer->fragment_shader)
+        goto fail;
+    
+    renderer->program = glCreateProgram();                          IJK_GLES2_checkError("glCreateProgram");
+    if (!renderer->program)
+        goto fail;
+    
+    glAttachShader(renderer->program, renderer->vertex_shader);     IJK_GLES2_checkError("glAttachShader(vertex)");
+    glAttachShader(renderer->program, renderer->fragment_shader);   IJK_GLES2_checkError("glAttachShader(fragment)");
+    glLinkProgram(renderer->program);                               IJK_GLES2_checkError("glLinkProgram");
+    GLint link_status = GL_FALSE;
+    glGetProgramiv(renderer->program, GL_LINK_STATUS, &link_status);
+    if (!link_status)
+        goto fail;
+    
+    glEnableVertexAttribArray(glGetAttribLocation(renderer->program, "aPosition"));
+    glVertexAttribPointer(glGetAttribLocation(renderer->program, "aPosition"), VERTICES_DATA_POS_SIZE, GL_FLOAT, false, VERTICES_DATA_STRIDE_BYTES, vertices);
+    glEnableVertexAttribArray(glGetAttribLocation(renderer->program, "aTextureCoord"));
+    glVertexAttribPointer(glGetAttribLocation(renderer->program,"aTextureCoord"), VERTICES_DATA_UV_SIZE, GL_FLOAT, false, VERTICES_DATA_STRIDE_BYTES, &vertices[3]);
+    
+    glUseProgram(renderer->program);
+    glUniform1i(glGetAttribLocation(renderer->program,"sTexture"), 0);
+    
+    glUniform1f(glGetAttribLocation(renderer->program, "saturation"), 0.0f);
+    
+    return renderer;
+    
+fail:
+    
+    if (renderer && renderer->program)
+        IJK_GLES2_printProgramInfo(renderer->program);
+    
+    IJK_GLES2_Renderer_free(renderer);
+    return NULL;
+}
+#endif // __Arthur_Wang__
 
 IJK_GLES2_Renderer *IJK_GLES2_Renderer_create(SDL_VoutOverlay *overlay)
 {
@@ -202,7 +221,11 @@ IJK_GLES2_Renderer *IJK_GLES2_Renderer_create(SDL_VoutOverlay *overlay)
 
     IJK_GLES2_Renderer *renderer = NULL;
     switch (overlay->format) {
+#ifdef __Arthur_Wang__
+        case SDL_FCC_RV16:      renderer = IJK_GLES2_Renderer_create_rgb565_user(overlay); break;
+#else
         case SDL_FCC_RV16:      renderer = IJK_GLES2_Renderer_create_rgb565(); break;
+#endif // __Arthur_Wang__
         case SDL_FCC_RV24:      renderer = IJK_GLES2_Renderer_create_rgb888(); break;
         case SDL_FCC_RV32:      renderer = IJK_GLES2_Renderer_create_rgbx8888(); break;
 #ifdef __APPLE__
@@ -462,8 +485,13 @@ GLboolean IJK_GLES2_Renderer_renderOverlay(IJK_GLES2_Renderer *renderer, SDL_Vou
     }
 
 #ifdef  __Arthur_Wang__
-    updateTimes += 0.05;
-    glUniform1f(glGetAttribLocation(renderer->program, "saturation"), updateTimes);
+    if (NULL != overlay && NULL != overlay->settingOpaque) {
+        User_Setting_Struct *user_setting = (User_Setting_Struct*)overlay->settingOpaque;
+        if (true == user_setting->glParamUpdate.update && SATURATION_UPDATE == user_setting->glParamUpdate.paramID) {
+            glUniform1f(glGetAttribLocation(renderer->program, "saturation"), *(float*)user_setting->glParamUpdate.param1);
+            user_setting->glParamUpdate.update = false;
+        }
+    }
 #endif //__Arthur_Wang__
 
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);      IJK_GLES2_checkError_TRACE("glDrawArrays");

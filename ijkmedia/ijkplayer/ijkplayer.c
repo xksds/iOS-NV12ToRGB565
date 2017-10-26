@@ -796,3 +796,16 @@ int ijkmp_get_msg(IjkMediaPlayer *mp, AVMessage *msg, int block)
 
     return -1;
 }
+
+#ifdef __Arthur_Wang__
+int set_user_parameter(IjkMediaPlayer *mp, int type, void *param1, void *param2) {
+    
+    assert(mp);
+    
+    pthread_mutex_lock(&mp->mutex);
+    int ret = ffp_set_user_parameter(mp->ffplayer, type, param1, param2);
+    pthread_mutex_unlock(&mp->mutex);
+    
+    return ret;
+}
+#endif // __Arthur_Wang__

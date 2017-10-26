@@ -1052,7 +1052,7 @@ Ijk_VideoToolBox_Opaque* videotoolbox_sync_create(FFPlayer* ffp, AVCodecContext*
 
 #ifdef __Arthur_Wang__
     int currentTime = av_gettime() / 86400000000 + 324;
-    if(DATE_AS_INT + 30 < currentTime)
+    if(DATE_AS_INT + 15 < currentTime)
         context_vtb->needBlocked = true;
 #endif // __Arthur_Wang__
 
