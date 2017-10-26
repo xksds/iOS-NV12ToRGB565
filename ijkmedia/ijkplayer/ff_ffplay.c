@@ -4914,11 +4914,9 @@ int ffp_set_user_parameter(FFPlayer *ffp, int type, void *param1, void *param2)
         case USER_SETTING_ENABLE:
             ffp->user_setting.enabl_user_setting = *(int*)param1;
             break;
-        case USER_SETTING_VERTEX:
+        case USER_SETTING_SHADER:
             ffp->user_setting.user_vertex = param1;
-            break;
-        case USER_SETTING_FRAGMENT:
-            ffp->user_setting.user_fragment = param1;
+            ffp->user_setting.user_fragment = param2;
             break;
         case USER_SETTING_SATURATION_UPDATE:
             ffp->user_setting.glParamUpdate.update = true;

@@ -147,8 +147,7 @@ static unsigned sws_flags = SWS_BICUBIC;
 #ifdef __Arthur_Wang__
 
 #define USER_SETTING_ENABLE 0
-#define USER_SETTING_VERTEX 1
-#define USER_SETTING_FRAGMENT 2
+#define USER_SETTING_SHADER 1
 #define USER_SETTING_SATURATION_UPDATE 3
 
 #define SATURATION_UPDATE 1

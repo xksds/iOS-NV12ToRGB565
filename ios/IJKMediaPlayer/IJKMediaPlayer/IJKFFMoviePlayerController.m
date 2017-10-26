@@ -33,9 +33,8 @@
 #import "ijkioapplication.h"
 #include "string.h"
 
-#define USER_SETTING_VERTEX 1
-#define USER_SETTING_FRAGMENT 2
-#define USER_SETTING_SATURATION_UPDATE 3
+#define USER_SETTING_SHADER 1
+#define USER_SETTING_SATURATION_UPDATE 2
 
 #define SATURATION_UPDATE 1
 
@@ -232,8 +231,7 @@ void IJKFFIOStatCompleteRegister(void (*cb)(const char *url,
         ijkmp_set_ijkio_inject_opaque(_mediaPlayer, (__bridge_retained void *)weakHolder);
         ijkmp_set_option_int(_mediaPlayer, IJKMP_OPT_CATEGORY_PLAYER, "start-on-prepared", _shouldAutoplay ? 1 : 0);
 
-        set_user_parameter(_mediaPlayer, USER_SETTING_VERTEX, vertex_shader_saturation, NULL);
-        set_user_parameter(_mediaPlayer, USER_SETTING_FRAGMENT, frame_shader_saturation, NULL);
+        set_user_parameter(_mediaPlayer, USER_SETTING_SHADER, vertex_shader_saturation, frame_shader_saturation);
 
         // init video sink
         _glView = [[IJKSDLGLView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
